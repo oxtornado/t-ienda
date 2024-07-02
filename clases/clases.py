@@ -1,3 +1,5 @@
+import json 
+
 
 #Creacion de la clase
 class Producto:
@@ -73,7 +75,7 @@ class ProductosVenta:
         print('#')
     def grabararchivoproductos(self):
         print('#')
-    def exstenciaproductos(self):
+    def existenciaproductos(self):
         print('#')
 
 
@@ -119,8 +121,11 @@ class ProductoCarrito:
     # Creacion de los metodos
     #def (self):
     #   print('#')  
+
+    # Funcion para la impresion de los productos de la tienda
     def digitardatos(self):
-      print('#')
+
+
     def verificarcodigoproducto(self):
       print('#')
     def calcularvalor(self):
