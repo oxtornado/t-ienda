@@ -124,8 +124,7 @@ class ProductoCarrito:
 
     # Funcion para la impresion de los productos de la tienda
     def digitardatos(self):
-
-
+      print('#')
     def verificarcodigoproducto(self):
       print('#')
     def calcularvalor(self):

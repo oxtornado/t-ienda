@@ -1,0 +1,30 @@
+[
+    {
+        "producto": "Television",
+        "marca": "LG",
+        "precio": 1500,
+        "stock": 13,
+        "codigo": 943
+    },
+    {
+        "producto": "Reloj Retro",
+        "marca": "Cassio",
+        "precio": 50,
+        "stock": 12,
+        "codigo": 315
+    },
+    {
+        "producto": "Celular G24",
+        "marca": "Motorola",
+        "precio": 800,
+        "stock": 4,
+        "codigo": 668
+    },
+    {
+        "producto": "Lavadora",
+        "marca": "LG",
+        "precio": 5000,
+        "stock": 6,
+        "codigo": 654
+    }
+]
