@@ -1,9 +1,14 @@
 import json
+import os
 from clases import *  
 
 
+def clear():
+    os.system('cls' if os.name == 'nt' else 'clear')
+
 #Funcion encargada de mostrar los productos de la tienda
-def mostrar_productos():
+def mostrar_productos(main):
+    clear()
     with open(r"Json\9.json") as tienda:
         data = json.load(tienda)
     
@@ -38,10 +43,21 @@ def mostrar_productos():
     
     for row in rows:
         print(' | '.join(f"{str(item).ljust(max_lengths[i])}" for i, item in enumerate(row)))
+    while True:
+        #Preguntamos si desea continuar
+        continuar = input("Volver al menu? (s/n): ")
 
+        #Si al respuesta es difernte de la opcion si, se rompe el ciclo
+        if continuar.lower() != 's':
+            break
+        else:
+            main()
 
 #Funcion encargada de la creacion de productos de la tienda
-def ingresar_productos():
+def ingresar_productos(main):
+    clear()
+
+    mostrar_productos(main)
 
     #Lllamamos la lista que esta en la direccion 'Json\9.json' como tienda_file
     with open(r"Json\9.json", 'r') as tienda_file:
@@ -100,64 +116,61 @@ def ingresar_productos():
     with open(r"Json\9.json", 'w') as tienda_file:
         json.dump(data, tienda_file, indent=4)
 
+    while True:
+        #Preguntamos si desea continuar
+        continuar = input("Volver al menu? (s/n): ")
+
+        #Si al respuesta es difernte de la opcion si, se rompe el ciclo
+        if continuar.lower() != 's':
+            break
+        else:
+            main()
 
 #Funcion encargada de eliminar productos de la tienda
-def eliminar_producto():
-
-    mostrar_productos()  # Assuming mostrar_productos() displays the current products
+def eliminar_producto(main):
+    mostrar_productos(main)  # Display current products
 
     # Load existing data from JSON file
     with open(r"Json\9.json", "r") as f:
         data = json.load(f)
 
     while True:
-        print("Ingrese el nombre del producto que desea eliminar:") # Aviso para que el usuario sepa que hacer
-        delete_option = input(" ").strip().title()  # Input para digitiar el nombre del producto
+        delete_option = input("Ingrese el nombre del producto que desea eliminar (o '0' para salir): ").strip().title()
 
-        if delete_option: # Creamos una condicion que siempre se lleve a cabo
-            
-            # Creamos una variable de control que lea la lista de productos y cambie su valor si encuentra 'delete_option'
-            producto_existente = False
+        if delete_option == '0':
+            break
 
-            #Aqui creamos el bucle para que recorra la lista 
-            for item in data:
+        producto_encontrado = False
+        for item in data:
+            if item["producto"] == delete_option:
+                data.remove(item)
+                producto_encontrado = True
+                print(f"El producto '{delete_option}' ha sido eliminado.")
+                break
 
-                
-            #Pero tambien  
-                if not producto_existente:
-                    print(f"El producto '{delete_option}' no existe en la lista.")
-                    continue
+        if not producto_encontrado:
+            print(f"El producto '{delete_option}' no existe en la lista.")
 
-                # Si el producto que digito el usuario es el mismo que el que se encuentra en la lista
-                if item["producto"] == delete_option:
+    # Save updated data back to JSON file
+    with open(r"Json\9.json", "w") as f:
+        json.dump(data, f, indent=4)
 
-                    #Lo eliminaremos
-                    data.remove(item)
-                    
-                    # Y cambiaremos el valor de la variable 
-                    producto_existente = True
+    mostrar_productos(main)  # Display updated list of products after deletion
+    
 
-                    # Imprimimos un aviso de que el producto ha sido eliminado
-                    print(f"El producto '{delete_option}' ha sido eliminado.")
-
-                    #Rompemos el ciclo
-                    break
-
-
+    mostrar_productos(main)   # Lista actualizada con los cambios que se le hayan hecho
+    while True:
         #Preguntamos si desea continuar
-        continuar = input("¿Desea ingresar otro producto? (s/n): ")
+        continuar = input("Volver al menu? (s/n): ")
 
         #Si al respuesta es difernte de la opcion si, se rompe el ciclo
         if continuar.lower() != 's':
             break
+        else:
+            main()
 
-    # Se sube la lista de nuevo y a continuacion se muestra la lista actualizada
-    with open(r"Json\9.json", "w") as f:
-        json.dump(data, f, indent=4)
-    
-    mostrar_productos()   # Lista actualizada con los cambios que se le hayan hecho
 
-def mostrar_carrito():
+def mostrar_carrito(main):
     with open("Json/carrito.json") as carrito_file:
         data = json.load(carrito_file)
     
@@ -191,47 +204,88 @@ def mostrar_carrito():
     
     for row in rows:
         print(' | '.join(f"{str(item).ljust(max_lengths[i])}" for i, item in enumerate(row)))
+    
+    while True:
+        #Preguntamos si desea continuar
+        continuar = input("Volver al menu? (s/n): ")
 
-def agregar_al_carrito():
+        #Si al respuesta es difernte de la opcion si, se rompe el ciclo
+        if continuar.lower() != 's':
+            break
+        else:
+            main()
 
-    mostrar_productos()  # Display available products
+
+def agregar_al_carrito(main):
+    clear()
+    mostrar_productos(main)  # Display available products
 
     # Load product data from the main product file (assuming it's named '9.json')
     with open("Json/9.json", "r") as f:
         data = json.load(f)
 
-    # Initialize cart data list
-    data_c = []
+    # Load cart data
+    with open("Json/carrito.json", "r") as carrito_file:
+        cart_data = json.load(carrito_file)
 
     while True:
         delete_option = input("Ingrese el nombre del producto que desea agregar al carrito: ").strip().title()
 
         if delete_option:  # Check if user entered something
-            producto_existente = False
-            
+            producto_encontrado = False
             for item in data:
                 if item["producto"] == delete_option:
-                    data_c.append(item)  # Add selected product to cart data
-                    producto_existente = True
-                    print(f"El producto '{delete_option}' ha sido agregado al carrito de compras.")
+                    cantidad = int(input(f"Ingrese la cantidad de '{delete_option}' que desea agregar al carrito: "))
+                    if cantidad <= item["stock"]:
+                        item["stock"] -= cantidad
+                        cart_data.append({
+                            "producto": item["producto"],
+                            "marca": item["marca"],
+                            "precio": item["precio"],
+                            "stock": cantidad,
+                            "codigo": item["codigo"]
+                        })
+                        print(f"Se agregaron {cantidad} '{delete_option}' al carrito.")
+                        producto_encontrado = True
+                    else:
+                        print(f"No hay suficiente stock disponible para {delete_option}. Stock actual: {item['stock']}")
                     break
 
-            if not producto_existente:
+            if not producto_encontrado:
                 print(f"El producto '{delete_option}' no existe en la lista de productos disponibles.")
 
         continuar = input("¿Desea ingresar otro producto? (s/n): ")
 
         if continuar.lower() != 's':
             break
-    
+
     # Update and save the cart data
     with open("Json/carrito.json", "w") as carrito_file:
-        json.dump(data_c, carrito_file, indent=4)
-    
-    mostrar_carrito()  # Display updated cart after additions
+        json.dump(cart_data, carrito_file, indent=4)
 
-def eliminar_del_carrito():
-    mostrar_carrito()
+    # Update and save the main product data with updated stock
+    with open("Json/9.json", "w") as f:
+        json.dump(data, f, indent=4)
+
+    clear()
+
+    mostrar_carrito(main)  # Display updated cart after additions
+    while True:
+        #Preguntamos si desea continuar
+        continuar = input("Volver al menu? (s/n): ")
+
+        #Si al respuesta es difernte de la opcion si, se rompe el ciclo
+        if continuar.lower() != 's':
+            break
+        else:
+            main()
+
+
+def eliminar_del_carrito(main):
+
+    clear()
+
+    mostrar_carrito(main)
 
     with open("Json/carrito.json", "r") as carrito_file:
         data = json.load(carrito_file)
@@ -256,9 +310,18 @@ def eliminar_del_carrito():
     with open("Json/carrito.json", "w") as carrito_file:
         json.dump(data, carrito_file, indent=4)
 
+    while True:
+        #Preguntamos si desea continuar
+        continuar = input("Volver al menu? (s/n): ")
 
-if __name__ == "__main__":
-    eliminar_del_carrito()
-    # eliminar_producto()
-    # # ingresar_productos()
-    # mostrar_productos()
+        #Si al respuesta es difernte de la opcion si, se rompe el ciclo
+        if continuar.lower() != 's':
+            break
+        else:
+            main()
+
+# if __name__ == "__main__":
+#     eliminar_del_carrito()
+#     # eliminar_producto()
+#     # # ingresar_productos()
+#     # mostrar_productos()

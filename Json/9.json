@@ -3,7 +3,7 @@
         "producto": "Television",
         "marca": "LG",
         "precio": 1500,
-        "stock": 13,
+        "stock": 10,
         "codigo": 943
     },
     {
@@ -21,10 +21,10 @@
         "codigo": 668
     },
     {
-        "producto": "Lavadora",
-        "marca": "LG",
-        "precio": 5000,
-        "stock": 6,
-        "codigo": 654
+        "producto": "Audifonos Bluetooth",
+        "marca": "Redmi",
+        "precio": 45.0,
+        "stock": 13,
+        "codigo": 489
     }
 ]

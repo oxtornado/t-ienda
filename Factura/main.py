@@ -7,18 +7,38 @@ def mostrar_carrito():
     with open("Json/carrito.json") as carrito_file:
         data = json.load(carrito_file)
     
-    products = []
-    for product in data:
-        product_info = {
-            'producto': product["producto"],
-            'marca': product["marca"],
-            'precio': str(product["precio"]),
-            'stock': str(product["stock"]),
-            'codigo': str(product["codigo"])
-        }
-        products.append(product_info)
+    print('''
+==================== Tienda Danielo's ====================
+============= Su carrito contiene: ============
+            ''')
     
-    return products
+    headers = [
+        'Producto',
+        'Marca',
+        'Precio',
+        'Cantidad',  # Changed from 'Stock' to 'Cantidad' (Quantity)
+        'Codigo'
+    ]
+    
+    rows = []
+    for product in data:
+        rows.append((
+            product["producto"],
+            product["marca"],
+            str(product["precio"]),  
+            str(product["stock"]),  # Update this to reflect 'cantidad' instead of 'stock'
+            str(product["codigo"])   
+        ))
+    
+    max_lengths = [max(len(str(item)) for item in col) for col in zip(headers, *rows)]
+    
+    print(' | '.join(f"{header.ljust(max_lengths[i])}" for i, header in enumerate(headers)))
+    print('-+-'.join('-' * length for length in max_lengths))
+    
+    for row in rows:
+        print(' | '.join(f"{str(item).ljust(max_lengths[i])}" for i, item in enumerate(row)))
+
+    return data  # Return updated cart data
 
 
 

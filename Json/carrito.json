@@ -1,9 +1,9 @@
 [
     {
-        "producto": "Television",
-        "marca": "LG",
-        "precio": 1500,
-        "stock": 13,
-        "codigo": 943
+        "producto": "Audifonos Bluetooth",
+        "marca": "Redmi",
+        "precio": 45.0,
+        "stock": 2,
+        "codigo": 489
     }
 ]
