@@ -18,6 +18,9 @@
         th {
             background-color: #f2f2f2;
         }
+        tfoot td {
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -43,6 +46,16 @@
             </tr>
             {% endfor %}
         </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4">Subtotal</td>
+                <td>{{ subtotal }}</td>
+            </tr>
+            <tr>
+                <td colspan="4">Total</td>
+                <td>{{ total }}</td>
+            </tr>
+        </tfoot>
     </table>
 </body>
 </html>

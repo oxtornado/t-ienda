@@ -1,4 +1,5 @@
 from Functions.functions import *
+from Factura.main import *
 
 def main():
     while True:
@@ -13,7 +14,8 @@ def main():
 6.- Eliminar productos del carrito
 7.- Crear un backup de la tienda
 8.- Editar productos
-9.- Salir
+9.- Imprimir factura
+10.- Salir
         ''')
         opcion = input("Ingrese su opción: ")
 
@@ -34,6 +36,17 @@ def main():
         elif opcion == '8':
             editar_producto(main)
         elif opcion == '9':
+            ruta_template = os.path.abspath('index.html')
+            lista_carrito = mostrar_carrito()
+            subtotal = sum(item["precio"] * item["stock"] for item in lista_carrito)
+            total = subtotal * 1.12  # Assuming a 12% tax rate
+            info = {
+                "lista_de_productos_para_factura": lista_carrito,
+                "subtotal": subtotal,
+                "total": total
+            }
+            crea_pdf(ruta_template, info)
+        elif opcion == '10':
             print("¡Hasta luego!")
             break
         else:
