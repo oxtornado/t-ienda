@@ -5,5 +5,19 @@
         "precio": 45.0,
         "stock": 2,
         "codigo": 489
+    },
+    {
+        "producto": "Television",
+        "marca": "LG",
+        "precio": 1500,
+        "stock": 5,
+        "codigo": 943
+    },
+    {
+        "producto": "Reloj Retro",
+        "marca": "Cassio",
+        "precio": 50,
+        "stock": 2,
+        "codigo": 315
     }
 ]
